@@ -16,7 +16,7 @@ class Tilt(object):
     Class defining the content of a Tilt advertisement
     """
 
-    def decode(self, packet):
+    def decode(self, packet, targetColour):
         data = {}
         raw_data = packet.retrieve('Manufacturer Specific Data')
 
@@ -32,31 +32,46 @@ class Tilt(object):
 
                tiltColour = ""
                if colourCode == "10":
-                       tiltColour = "Red"
+                   tiltColour = "Red"
                elif colourCode == "20":
-                       tiltColour = "Green"
+                   tiltColour = "Green"
                elif colourCode == "30":
-                       tiltColour = "Black"
+                   tiltColour = "Black"
                elif colourCode == "40":
-                       tiltColour = "Purple"
+                   tiltColour = "Purple"
                elif colourCode == "50":
-                       tiltColour = "Orange"
+                   tiltColour = "Orange"
                elif colourCode == "60":
-                       tiltColour = "Blue"
+                   tiltColour = "Blue"
                elif colourCode == "70":
-                       tiltColour = "Yellow"
+                   tiltColour = "Yellow"
                elif colourCode == "80":
-                       tiltColour = "Pink"
+                   tiltColour = "Pink"
 
-               tempF = int(payload[36:40], 16) #temperature in degrees F
-               tempC = round(((tempF - 32) * 5/9), 1)
-               gravity = int(payload[40:44], 16) #temperature in degrees F
+               if tiltColour == targetColour:
+                   tempF = int(payload[36:40], 16) #temperature in degrees F
+                   tempC = round(((tempF - 32) * 5/9), 1)
+                   gravity = int(payload[40:44], 16) #temperature in degrees F
 
-               data['uuid'] = payload[4:36]
-               data['tiltColour'] = tiltColour
-               data['tempF'] = tempF
-               data['tempC'] = tempC
-               data['gravity'] = gravity
-               data['rssi'] = rssi[-1].val
-               data['mac'] = mac[-1].val
+                    data['uuid'] = payload[4:36]
+                   data['tiltColour'] = tiltColour
+                   data['tempF'] = tempF
+                   data['tempC'] = tempC
+                   data['gravity'] = gravity
+                   data['rssi'] = rssi[-1].val
+                   data['mac'] = mac[-1].val
+               else:
+                   tiltColour = targetColour
+                   tempF = "N/A" #temperature in degrees F
+                   tempC = "N/A"
+                   gravity = "N/A"
+
+                   data['uuid'] = ""
+                   data['tiltColour'] = tiltColour
+                   data['tempF'] = "N/A"
+                   data['tempC'] = "N/A"
+                   data['gravity'] = "N/A"
+                   data['rssi'] = ""
+                   data['mac'] = ""
+
                return json.dumps(data)
