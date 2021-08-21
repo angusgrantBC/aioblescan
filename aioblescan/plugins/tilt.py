@@ -53,7 +53,7 @@ class Tilt(object):
                    tempC = round(((tempF - 32) * 5/9), 1)
                    gravity = int(payload[40:44], 16) #temperature in degrees F
 
-                    data['uuid'] = payload[4:36]
+                   data['uuid'] = payload[4:36]
                    data['tiltColour'] = tiltColour
                    data['tempF'] = tempF
                    data['tempC'] = tempC
