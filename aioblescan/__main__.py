@@ -81,7 +81,7 @@ def my_process(data):
         if xx:
             print("Temperature info {}".format(xx))
     elif opts.tilt:
-        xx=Tilt().decode(ev)
+        xx=Tilt().decode(ev, opts.tilt)
         if xx:
             print("{}".format(xx))
 
@@ -137,7 +137,7 @@ def main(args=None):
         "--raw",
         action="store_true",
         default=False,
-        help="Also show the raw data.",
+       help="Also show the raw data.",
     )
     parser.add_argument(
         "-a",
@@ -169,8 +169,8 @@ def main(args=None):
     )
     parser.add_argument(
         "-T","--tilt",
-        action='store_true',
-        default=False,
+        type=str,
+        default="",
         help="Look only for Tilt digital hydrometers."
     )
     parser.add_argument(
