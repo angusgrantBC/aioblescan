@@ -229,7 +229,6 @@ def main(args=None):
     except KeyboardInterrupt:
         print("keyboard interrupt")
     finally:
-        print("closing event loop")
         event_loop.run_until_complete(btctrl.stop_scan_request())
         command = aiobs.HCI_Cmd_LE_Advertise(enable=False)
         event_loop.run_until_complete(btctrl.send_command(command))
