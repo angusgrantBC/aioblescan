@@ -67,7 +67,7 @@ To check Tilt hydrometer beacon
 
 You get
 
-{"uuid": "a495bb50c5b14b44b5121370f02d74de", "tiltColour": "Orange", "tempF": 69, "tempC": 20.6, "gravity": 1027, "rssi": -83, "mac": "c7:8c:35:08:85:dd"}
+    {"uuid": "a495bb50c5b14b44b5121370f02d74de", "tiltColour": "Orange", "tempF": 69, "tempC": 20.6, "gravity": 1027, "rssi": -83, "mac": "c7:8c:35:08:85:dd"}
 
 For a generic advertise packet scanning
 
