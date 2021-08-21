@@ -33,6 +33,7 @@ from aioblescan.plugins import ATCMiThermometer
 
 # global
 opts = None
+event_loop = None
 
 
 def check_mac(val):
@@ -45,6 +46,7 @@ def check_mac(val):
 
 
 def my_process(data):
+    global event_loop
     global opts
 
     ev = aiobs.HCI_Event()
@@ -77,11 +79,20 @@ def my_process(data):
         xx = ATCMiThermometer().decode(ev)
         if xx:
             print("Temperature info {}".format(xx))
+    elif opts.tilt:
+        xx=Tilt().decode(ev)
+        if xx:
+            print("{}".format(xx))
+
+            if opts.singleLoop == 1:
+                event_loop.stop()
+
     else:
         ev.show(0)
 
 
 def main(args=None):
+    global event_loop
     global opts
 
     parser = argparse.ArgumentParser(description="Track BLE advertised packets")
@@ -155,6 +166,20 @@ def main(args=None):
         default=0,
         help="Select the hciX device to use (default 0, i.e. hci0).",
     )
+    parser.add_argument(
+        "-T","--tilt",
+        action='store_true',
+        default=False,
+        help="Look only for Tilt digital hydrometers."
+    )
+    parser.add_argument(
+        "-S",
+        "--singleLoop",
+        type=int,
+        default=0,
+        help="Set to 0 for infinite; Set to 1 to loop once",
+    )
+
     try:
         opts = parser.parse_args()
     except Exception as e:
